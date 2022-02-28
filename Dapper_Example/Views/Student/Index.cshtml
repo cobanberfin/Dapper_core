@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Dapper_Example.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Öğrenc Listesi</h1>
+<div class="container">
+    <div>
+        <br />
+        <form method="post" action="/Student/Index" class="d-inline-flex">
+            <input type="search" name="name" placeholder="Arama..." class="form-control" />
+            <button class="btn btn-success" type="submit"> Ögrenci Ara</button>
+        </form>
+        <br />
+        <hr />
+     
+    </div>
+
+</div>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+          
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=@item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = @item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = @item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
