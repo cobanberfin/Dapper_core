@@ -1,4 +1,5 @@
-﻿using Dapper_Example.Models;
+﻿using Dapper_core.Models;
+using Dapper_Example.Models;
 using Dapper_Example.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,13 +12,14 @@ namespace Dapper_Example.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentRepository rep;
+        StudentModel sm = new StudentModel();
         public StudentController(IStudentRepository _rep)
         {
             rep = _rep;
         }
-        public IActionResult Index()
+        public IActionResult Index(string name, string surname, string email)
         {
-            return View(rep.GetAll());
+            return View(rep.GetAll(name,surname,email));
         }
 
         public IActionResult Details(int? id)
@@ -73,7 +75,7 @@ namespace Dapper_Example.Controllers
 
             if (ModelState.IsValid)
             {
-                rep.Update(student);
+                rep.Update(student); 
                 return RedirectToAction(nameof(Index));
             }
             return View(student);

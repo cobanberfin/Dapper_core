@@ -7,7 +7,7 @@ namespace Dapper_Example.Models.Repository
 {
    public interface IStudentRepository
     {
-        List<Student> GetAll();
+        List<Student> GetAll(string name,string surname,string email);
         Student Find(int id);
         Student Add(Student student);
         Student Update(Student student);

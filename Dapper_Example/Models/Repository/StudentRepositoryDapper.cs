@@ -33,10 +33,30 @@ namespace Dapper_Example.Models.Repository
             return db.Query<Student>(sql, new { @Studentid = id }).Single();
         }
 
-        public List<Student> GetAll()
+        public List<Student> GetAll(string name, string surname, string email)
         {
-            var sql = "select * from Students";
-            return db.Query<Student>(sql).ToList();
+            var sql = "";
+            if (name == null && surname == null && email == null)
+            {
+                sql = "Select *from Students";
+            }
+            else if (name != null)
+            {
+                sql = "select * from Students where Name Like Concat('%',@name,'%')";
+
+                if (surname != null)
+                {
+                    sql = "select * from Students where surname Like Concat('%',@surname,'%')";
+
+                    if (email != null)
+                    {
+                        sql = "select * from Students where email Like Concat('%',@email,'%')";
+                    }
+
+                }
+            }
+           // var sql = "select * from Students";
+            return db.Query<Student>(sql, new { @name = name, @surname = surname, @email = email }).ToList();
         }
 
         public void Remove(int id)
@@ -48,9 +68,10 @@ namespace Dapper_Example.Models.Repository
     
         public Student Update(Student student)
         {
-            var sql = "Update Students Set Name=@Name,Surname=@Surname,Email=@Email Where Id=id";
+            var sql = "Update Students Set Name=@Name,Surname=@Surname,Email=@Email Where Id=@id";
             db.Execute(sql, student);
             return student;
+           // return db.Query<Student>(sql, student).Single();
         }
        
     }
